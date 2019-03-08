@@ -4,10 +4,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CircleController">
+<Pane fx:id="map" maxHeight="374.0" maxWidth="580.0" minHeight="374.0" minWidth="580.0" onMouseClicked="#createCircle" prefHeight="374.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CircleController">
    <children>
       <Circle fx:id="blueCircle" fill="DODGERBLUE" layoutX="200.0" layoutY="134.0" radius="17.0" stroke="BLACK" strokeType="INSIDE" />
       <Button layoutX="21.0" layoutY="326.0" mnemonicParsing="false" onAction="#moveCircle" text="Move" />
+      <Button layoutX="75.0" layoutY="326.0" mnemonicParsing="false" onAction="#stopCircles" text="Stop" />
    </children>
 </Pane>
