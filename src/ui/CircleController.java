@@ -12,8 +12,11 @@ import threads.CircleThread;
 
 public class CircleController {
 
+	public boolean moveOn;
 	@FXML
 	private Circle blueCircle;
+	
+	private int circles;
 
 	@FXML
 	private Pane map;
@@ -24,17 +27,16 @@ public class CircleController {
 
 	@FXML
 	public void initialize() {
-		ct = new CircleThread(this, blueCircle);
-		blueCircle.setLayoutY(4000);
+		ct = new CircleThread(this, blueCircle, "n");
 		ex = Executors.newCachedThreadPool();
 		ex.execute(ct);
+		moveOn = false;
+		circles = 1;
 	}
 
 	@FXML
 	public void moveCircle(ActionEvent event) {
-		if(!CircleThread.moveOn) {
-			ct.setMoveOn(true);
-		}
+			moveOn = true;
 	}
 
 	public boolean moveCircle(Circle circle, int bounces) {
@@ -52,19 +54,18 @@ public class CircleController {
 
 	@FXML
 	public void createCircle(MouseEvent event) {
+		circles += 1;
 		Circle circle = new Circle(17, blueCircle.getFill());
 		circle.setStroke(blueCircle.getStroke());
 		circle.setLayoutX(event.getX());
 		circle.setLayoutY(event.getY());
-		CircleThread cirt = new CircleThread(this, circle);
+		CircleThread cirt = new CircleThread(this, circle, ""+circles);
 		ex.execute(cirt);
 		map.getChildren().add(circle);
 	}
 	
 	@FXML
 	public void stopCircles(ActionEvent event) {
-		if(CircleThread.moveOn) {
-			ct.setMoveOn(false);
-		}
+			moveOn = false;
 	}
 }
