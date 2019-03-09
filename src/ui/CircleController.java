@@ -1,10 +1,8 @@
 package ui;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -15,28 +13,29 @@ public class CircleController {
 	public boolean moveOn;
 	@FXML
 	private Circle blueCircle;
-	
-	private int circles;
 
 	@FXML
 	private Pane map;
-	
-	private ExecutorService ex;
 	
 	private CircleThread ct;
 
 	@FXML
 	public void initialize() {
-		ct = new CircleThread(this, blueCircle, "n");
-		ex = Executors.newCachedThreadPool();
-		ex.execute(ct);
+		ct = new CircleThread(this, blueCircle);
 		moveOn = false;
-		circles = 1;
+		ct.start();
 	}
 
 	@FXML
 	public void moveCircle(ActionEvent event) {
 			moveOn = true;
+			CircleThread ct;
+			for(Node node : map.getChildren()) {
+				if(node instanceof Circle) {
+					ct = new CircleThread(this, (Circle)node);
+					ct.start();
+				}
+			}
 	}
 
 	public boolean moveCircle(Circle circle, int bounces) {
@@ -54,13 +53,12 @@ public class CircleController {
 
 	@FXML
 	public void createCircle(MouseEvent event) {
-		circles += 1;
 		Circle circle = new Circle(17, blueCircle.getFill());
 		circle.setStroke(blueCircle.getStroke());
 		circle.setLayoutX(event.getX());
 		circle.setLayoutY(event.getY());
-		CircleThread cirt = new CircleThread(this, circle, ""+circles);
-		ex.execute(cirt);
+		ct = new CircleThread(this, circle);
+		ct.start();
 		map.getChildren().add(circle);
 	}
 	
